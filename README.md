@@ -2,11 +2,11 @@
 
 Geospatial analysis tool identifying safe zones for consumer fireworks using OpenStreetMap data and international safety standards. Supports any city worldwide via `--city` parameter.
 
-**⚠️ ARMENIA USERS**: This tool uses international safety standards as reference. Armenian law requires fireworks licensing, restricts sale to licensed traders, and bans use 23:00-07:00 (except Dec 31-Jan 1). No specific distance buffers found in Armenian law. Verify compliance with Armenian Ministry of Internal Affairs before use.
+**ARMENIA USERS**: This tool uses international safety standards as reference. Armenian law requires fireworks licensing, restricts sale to licensed traders, and bans use 23:00-07:00 (except Dec 31-Jan 1). No specific distance buffers found in Armenian law. Verify compliance with Armenian Ministry of Internal Affairs before use.
 
 ## Summary (Yerevan, Armenia - Example Results)
 
-**393 safe zones** covering **63.57 km²** (28.5% of Yerevan) identified through processing **84,147 obstacles** across **40 categories** with differentiated safety buffers (50-1500m).
+**461 safe zones** covering **53.19 km²** (23.9% of Yerevan) identified through processing **85,195 obstacles** across **40 categories** with differentiated safety buffers (50-1500m).
 
 ---
 
@@ -14,11 +14,11 @@ Geospatial analysis tool identifying safe zones for consumer fireworks using Ope
 
 | Metric              | Value              |
 | ------------------- | ------------------ |
-| Safe zones          | 393 polygons       |
-| Total safe area     | 63.57 km²          |
-| Coverage            | 28.5% of Yerevan   |
-| Excluded area       | 159.43 km² (71.5%) |
-| Obstacles processed | 84,147 features    |
+| Safe zones          | 461 polygons       |
+| Total safe area     | 53.19 km²          |
+| Coverage            | 23.9% of Yerevan   |
+| Excluded area       | 169.81 km² (76.1%) |
+| Obstacles processed | 85,195 features    |
 | Categories          | 40 distinct types  |
 | Buffer range        | 50-1500 meters     |
 
@@ -26,10 +26,10 @@ Geospatial analysis tool identifying safe zones for consumer fireworks using Ope
 
 | Size Class | Count | %     | Area Range       |
 | ---------- | ----- | ----- | ---------------- |
-| Small      | 146   | 37.2% | 2,000-5,000 m²   |
-| Medium     | 84    | 21.4% | 5,000-10,000 m²  |
-| Large      | 99    | 25.2% | 10,000-50,000 m² |
-| Very Large | 64    | 16.3% | >50,000 m²       |
+| Small      | 137   | 29.7% | 2,000-5,000 m²   |
+| Medium     | 91    | 19.7% | 5,000-10,000 m²  |
+| Large      | 122   | 26.5% | 10,000-50,000 m² |
+| Very Large | 111   | 24.1% | >50,000 m²       |
 
 ---
 
@@ -207,7 +207,7 @@ Generated in `data/{city-slug}/` folder (e.g., `data/yerevan-armenia/`, `data/pr
 - **safe_zones.geojson**: Polygon zones with metadata (GeoJSON format)
 - **safe_zones.csv**: Zone statistics (CSV format)
 - **safe_zones.kml**: Google Earth compatible format (4.1 MB for Yerevan)
-- **safe_zones.kmz**: Compressed KML for mobile apps (1.4 MB for Yerevan) ⭐ **Recommended for smartphones**
+- **safe_zones.kmz**: Compressed KML for mobile apps (1.4 MB for Yerevan) - **Recommended for smartphones**
 - **safe_points.geojson**: Point grid (10m spacing, GeoJSON format)
 - **safe_points.csv**: Point coordinates (CSV format)
 
@@ -218,8 +218,8 @@ Generated in `data/{city-slug}/` folder (e.g., `data/yerevan-armenia/`, `data/pr
 - Most navigation apps
 
 Example sizes for Yerevan:
-- safe_zones.geojson: 6.3 MB (393 zones)
-- safe_zones.kmz: 1.4 MB (compressed, mobile-friendly) ⭐
+- safe_zones.geojson: 7.4 MB (461 zones)
+- safe_zones.kmz: 1.4 MB (compressed, mobile-friendly)
 - safe_points.geojson: 116 MB (point grid)
 - safe_points.csv: 30 MB
 
@@ -235,15 +235,15 @@ Example sizes for Yerevan:
    - **Google Earth**: Tap file → View in Earth
 
 **Advantages of KMZ:**
-- ✅ 3× smaller than GeoJSON (1.4 MB vs 4.1 MB for KML)
-- ✅ Color-coded zones by size (yellow to orange)
-- ✅ Offline viewing after download
-- ✅ Works on any smartphone
-- ✅ Clickable zones with details (area, ID, safety class)
+- 3× smaller than GeoJSON (1.4 MB vs 4.1 MB for KML)
+- Color-coded zones by size (yellow to orange)
+- Offline viewing after download
+- Works on any smartphone
+- Clickable zones with details (area, ID, safety class)
 
 ### Processing Performance
 
-Example for Yerevan (large city ~223 km², ~84k obstacles):
+Example for Yerevan (large city ~223 km², ~85k obstacles):
 
 | Parameter       | Value        |
 | --------------- | ------------ |
@@ -261,7 +261,7 @@ Smaller cities will process faster and use less memory.
 ### Algorithm
 
 ```
-1. Load OSM data - 39 categories by tags
+1. Load OSM data - 40 categories by tags
 2. Categorize - Assign each feature to category
 3. Auto-detect UTM zone - Based on city centroid
 4. Create buffers - 50-1500m per category (in UTM CRS)
@@ -501,8 +501,8 @@ python tag_audit.py
 
 # Expected output:
 # All loaded tags are categorized (0% orphaned)
-# 39 categories configured
-# ~83,000 features processed
+# 40 categories configured
+# ~85,000 features processed
 ```
 
 ---
@@ -512,7 +512,7 @@ python tag_audit.py
 ```
 yerevan-fireworks-safe-zones/
 ├── src/
-│   ├── config.py              # 39 categories + buffers + OSM tags
+│   ├── config.py              # 40 categories + buffers + OSM tags
 │   ├── osm_loader.py          # Load & categorize OSM data
 │   ├── geometry_utils.py      # Buffers, CRS transforms
 │   ├── zones_generator.py     # Free space calculation
