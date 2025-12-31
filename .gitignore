@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (optional - uncomment to ignore data files)
+# data/*.geojson
+# data/*.csv
+
+# Logs
+*.log
+logs/
+
+# Output data files (generated results)
+# City-specific subdirectories (e.g., data/yerevan-armenia/, data/prague-czech-republic/)
+data/*/
+data/*.geojson
+data/*.csv
+data/*.gpkg
+data/*.shp
+data/*.shx
+data/*.dbf
+data/*.prj
+data/*.cpg
+
+# Keep data directory structure but ignore contents
+!data/.gitkeep
+
+# Example outputs
+# City-specific subdirectories (e.g., examples/output/yerevan-armenia/)
+examples/*.png
+examples/*.pdf
+examples/*.svg
+examples/output/
+
+# Notebook outputs
+notebooks/*.html
+notebooks/*.png
+notebooks/*.pdf
+
+# OSMnx cache (default location)
+.osmnx_cache/
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ruff
+.ruff_cache/
+
+cache/
+.claude/

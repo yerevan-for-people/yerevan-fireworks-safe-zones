@@ -1,0 +1,25 @@
+[project]
+name = "yerevan-fireworks-safe-zones"
+version = "0.1.0"
+description = "Find safe zones for fireworks in Yerevan using OpenStreetMap data"
+requires-python = ">=3.11"
+dependencies = [
+    "osmnx>=1.9.0",
+    "geopandas>=0.14.0",
+    "shapely>=2.0.0",
+    "pyproj>=3.6.0",
+    "requests>=2.31.0",
+    "matplotlib>=3.8.0",
+    "pandas>=2.1.0",
+    "numpy>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
