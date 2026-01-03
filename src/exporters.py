@@ -307,7 +307,8 @@ def export_zones_to_kml(
     zones_gdf: gpd.GeoDataFrame,
     output_dir: Path,
     filename: str = "safe_zones.kml",
-    city_name: str = "Unknown City"
+    city_name: str = "Unknown City",
+    simplify_tolerance: float = 0.00001
 ) -> Path:
     """
     Export safe zones to KML format for Google Earth and mobile apps.
@@ -317,6 +318,7 @@ def export_zones_to_kml(
         output_dir: Directory for output file (city subdirectory will be created)
         filename: Output filename
         city_name: Name of the city for metadata
+        simplify_tolerance: Tolerance for geometry simplification in degrees (default: 0.00001 ≈ 1m)
 
     Returns:
         Path to exported KML file
@@ -328,6 +330,18 @@ def export_zones_to_kml(
         zones_wgs84 = zones_gdf.to_crs("EPSG:4326")
     else:
         zones_wgs84 = zones_gdf
+
+    # Simplify geometry to reduce file size for mobile apps
+    if simplify_tolerance > 0:
+        original_points = sum(len(geom.exterior.coords) if geom.geom_type == 'Polygon'
+                            else sum(len(p.exterior.coords) for p in geom.geoms)
+                            for geom in zones_wgs84.geometry)
+        zones_wgs84 = zones_wgs84.copy()
+        zones_wgs84['geometry'] = zones_wgs84.geometry.simplify(simplify_tolerance, preserve_topology=True)
+        simplified_points = sum(len(geom.exterior.coords) if geom.geom_type == 'Polygon'
+                               else sum(len(p.exterior.coords) for p in geom.geoms)
+                               for geom in zones_wgs84.geometry)
+        logger.info(f"Simplified geometry: {original_points:,} → {simplified_points:,} points ({100*simplified_points/original_points:.1f}%)")
 
     city_slug = slugify_city_name(city_name)
     city_output_dir = output_dir / city_slug
@@ -348,12 +362,13 @@ def export_zones_to_kml(
         f"Total area: {zones_gdf['area_m2'].sum() / 1_000_000:.2f} km²."
     )
 
-    # Add styles for different size classes
+    # Add styles for different size classes (gradient: red for small → green for large)
     styles = {
-        'Small': '#FFE599',     # Light yellow
-        'Medium': '#FFD966',    # Yellow
-        'Large': '#FFB347',     # Orange
-        'Very Large': '#FF8C42' # Dark orange
+        'Very Small': '#FF6B6B', # Red (smallest, less desirable)
+        'Small': '#FFB84D',      # Orange
+        'Medium': '#FFE66D',     # Yellow (neutral)
+        'Large': '#A0E87C',      # Light green
+        'Very Large': '#4CAF50'  # Green (largest, most desirable)
     }
 
     for size_class, color in styles.items():
@@ -371,21 +386,21 @@ def export_zones_to_kml(
         placemark = ET.SubElement(document, 'Placemark')
         ET.SubElement(placemark, 'name').text = f"Zone {row['zone_id']}"
 
-        # Description with zone details
+        # Description with zone details (without CDATA to avoid double escaping)
+        size_class_display = row['size_class'].replace('_', ' ').title()
         description = (
-            f"<![CDATA["
-            f"<b>Zone ID:</b> {row['zone_id']}<br>"
-            f"<b>Area:</b> {row['area_m2']:,.0f} m² ({row['area_m2']/10000:.2f} ha)<br>"
-            f"<b>Size Class:</b> {row['size_class']}<br>"
-            f"<b>Perimeter:</b> {row['perimeter_m']:,.0f} m<br>"
-            f"<b>Compactness:</b> {row['compactness']:.3f}<br>"
-            f"<br><i>Safe for consumer fireworks (F2/F3 category)</i>"
-            f"]]>"
+            f"Zone ID: {row['zone_id']}\n"
+            f"Area: {row['area_m2']:,.0f} m² ({row['area_m2']/10000:.2f} ha)\n"
+            f"Size Class: {size_class_display}\n"
+            f"Perimeter: {row['perimeter_m']:,.0f} m\n"
+            f"Compactness: {row['compactness']:.3f}\n"
+            f"\nSafe for consumer fireworks (F2/F3 category)"
         )
         ET.SubElement(placemark, 'description').text = description
 
-        # Style reference
-        ET.SubElement(placemark, 'styleUrl').text = f"#style_{row['size_class'].replace(' ', '_')}"
+        # Style reference - normalize size_class to match style definitions
+        size_class_normalized = row['size_class'].replace('_', ' ').title()
+        ET.SubElement(placemark, 'styleUrl').text = f"#style_{size_class_normalized.replace(' ', '_')}"
 
         # Geometry
         polygon = ET.SubElement(placemark, 'Polygon')
