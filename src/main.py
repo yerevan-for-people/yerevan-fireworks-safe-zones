@@ -125,7 +125,7 @@ def main() -> int:
     logger.info("=" * 60)
     logger.info("Fireworks Safe Zones Finder")
     logger.info("=" * 60)
-    logger.info(f"Configuration:")
+    logger.info("Configuration:")
     logger.info(f"  City: {args.city}")
     logger.info(f"  Grid step: {args.grid_step}m")
     logger.info(f"  Output directory: {args.output_dir}")

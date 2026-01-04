@@ -43,7 +43,7 @@ def audit_tag_coverage():
     total_tags = len(tag_to_categories)
     total_categories = len(category_configs)
 
-    print(f"Configuration Statistics:")
+    print("Configuration Statistics:")
     print(f"   - Total categories: {total_categories}")
     print(f"   - Total unique tags: {total_tags}")
     print(f"   - OSM tag keys loaded: {len(osm_tags)}")

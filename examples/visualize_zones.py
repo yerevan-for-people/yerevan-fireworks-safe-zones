@@ -67,11 +67,13 @@ def main(city: str = "Yerevan, Armenia"):
         buildings_sample.plot(ax=ax, facecolor='lightgray', edgecolor='gray',
                              alpha=0.3, linewidth=0.5)
 
+    # Color scheme matching KML export (orange → yellow → green)
+    # Aligned with fireworks safety standards
     size_colors = {
-        'small': '#90EE90',
-        'medium': '#00FF00',
-        'large': '#00CC00',
-        'very_large': '#008800'
+        'small': '#FFB84D',      # Orange (2-5k m², EU F3)
+        'medium': '#FFE66D',     # Yellow (5-12.5k m², NFPA 1-2")
+        'large': '#A0E87C',      # Light green (12.5-50k m², NFPA 2-3")
+        'very_large': '#4CAF50'  # Green (50k+ m², professional)
     }
 
     for size_class, color in size_colors.items():

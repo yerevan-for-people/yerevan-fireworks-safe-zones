@@ -8,7 +8,7 @@ from shapely.geometry import MultiPolygon, GeometryCollection, Polygon
 from shapely.ops import unary_union
 from tqdm import tqdm
 
-from .config import get_buffer_distances, get_utm_crs_for_location
+from .config import get_buffer_distances
 
 logger = logging.getLogger(__name__)
 

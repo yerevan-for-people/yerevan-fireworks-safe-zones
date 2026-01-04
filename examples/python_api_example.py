@@ -79,7 +79,7 @@ def main(city: str = "Yerevan, Armenia"):
         custom_buffers=buffer_distances
     )
 
-    print(f"  Forbidden zone created")
+    print("  Forbidden zone created")
 
     print(f"\n[5/6] Generating safe zones (min area: {DEFAULT_MIN_ZONE_AREA_M2} m²)...")
     zones = create_zones_from_free_space(
@@ -120,16 +120,16 @@ def main(city: str = "Yerevan, Armenia"):
     print("ANALYSIS SUMMARY")
     print("=" * 70)
 
-    print(f"\nTerritory:")
+    print("\nTerritory:")
     print(f"  City area:        {boundary_area_km2:.2f} km²")
     print(f"  Safe zones:       {safe_area_km2:.2f} km² ({coverage_pct:.1f}%)")
     print(f"  Excluded:         {boundary_area_km2 - safe_area_km2:.2f} km² ({100-coverage_pct:.1f}%)")
 
-    print(f"\nObstacles:")
+    print("\nObstacles:")
     print(f"  Total features:   {total_features:,}")
     print(f"  Categories:       {len(obstacles)} (39 types)")
 
-    print(f"\nSafe zones:")
+    print("\nSafe zones:")
     print(f"  Total zones:      {total_zones}")
     print(f"  Min area:         {zones['area_m2'].min():,.0f} m²")
     print(f"  Max area:         {zones['area_m2'].max():,.0f} m²")

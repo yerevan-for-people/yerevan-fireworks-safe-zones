@@ -79,7 +79,7 @@ def create_zones_from_points(
         total_area_km2 = zones['area_m2'].sum() / 1_000_000
         avg_area_m2 = zones['area_m2'].mean()
 
-        logger.info(f"Zone statistics:")
+        logger.info("Zone statistics:")
         logger.info(f"  Total zones: {len(zones)}")
         logger.info(f"  Total safe area: {total_area_km2:.3f} km²")
         logger.info(f"  Average zone size: {avg_area_m2:.0f} m²")
@@ -93,7 +93,13 @@ def classify_zones_by_size(
     zones_gdf: gpd.GeoDataFrame
 ) -> gpd.GeoDataFrame:
     """
-    Classify zones by size categories.
+    Classify zones by size categories based on fireworks safety standards.
+
+    Size classes align with international fireworks standards:
+    - small: 2,000-5,000 m² (EU F3 minimum professional, ~25-40m radius)
+    - medium: 5,000-12,500 m² (NFPA 1123: 1-2 inch shells, ~40-63m radius)
+    - large: 12,500-50,000 m² (NFPA 1123: 2-3 inch shells, ~63-126m radius)
+    - very_large: 50,000+ m² (Large professional displays, 126m+ radius)
 
     Args:
         zones_gdf: GeoDataFrame with zones and area_m2 column
@@ -107,11 +113,9 @@ def classify_zones_by_size(
     logger.info("Classifying zones by size...")
 
     def classify_size(area_m2):
-        if area_m2 < 1000:
-            return 'very_small'
-        elif area_m2 < 5000:
+        if area_m2 < 5000:
             return 'small'
-        elif area_m2 < 10000:
+        elif area_m2 < 12500:
             return 'medium'
         elif area_m2 < 50000:
             return 'large'
@@ -304,7 +308,7 @@ def create_zones_from_free_space(
     total_area_km2 = zones_gdf['area_m2'].sum() / 1_000_000
     avg_area_m2 = zones_gdf['area_m2'].mean()
 
-    logger.info(f"Zone statistics:")
+    logger.info("Zone statistics:")
     logger.info(f"  Total zones: {len(zones_gdf)}")
     logger.info(f"  Total safe area: {total_area_km2:.3f} km²")
     logger.info(f"  Average zone size: {avg_area_m2:.0f} m²")

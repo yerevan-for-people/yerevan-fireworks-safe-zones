@@ -85,6 +85,18 @@ def export_geojson(
 
     logger.info(f"GeoJSON saved to {output_path}")
 
+    # Create minified version
+    minified_path = output_path.with_suffix('.min.geojson')
+    with open(output_path, 'r', encoding='utf-8') as f:
+        geojson_data = json.load(f)
+    with open(minified_path, 'w', encoding='utf-8') as f:
+        json.dump(geojson_data, f, ensure_ascii=False, separators=(',', ':'))
+
+    original_size = output_path.stat().st_size / (1024 * 1024)
+    minified_size = minified_path.stat().st_size / (1024 * 1024)
+    savings = original_size - minified_size
+    logger.info(f"Minified GeoJSON saved to {minified_path} ({minified_size:.2f} MB, saved {savings:.2f} MB)")
+
 
 def export_csv(
     safe_points_gdf: gpd.GeoDataFrame,
@@ -237,6 +249,17 @@ def export_zones_to_geojson(
         json.dump(geojson_data, f, ensure_ascii=False, indent=2)
 
     logger.info(f"GeoJSON with metadata saved to {output_path}")
+
+    # Create minified version
+    minified_path = output_path.with_suffix('.min.geojson')
+    with open(minified_path, 'w', encoding='utf-8') as f:
+        json.dump(geojson_data, f, ensure_ascii=False, separators=(',', ':'))
+
+    original_size = output_path.stat().st_size / (1024 * 1024)
+    minified_size = minified_path.stat().st_size / (1024 * 1024)
+    savings = original_size - minified_size
+    logger.info(f"Minified GeoJSON saved to {minified_path} ({minified_size:.2f} MB, saved {savings:.2f} MB)")
+
     return output_path
 
 
@@ -362,13 +385,13 @@ def export_zones_to_kml(
         f"Total area: {zones_gdf['area_m2'].sum() / 1_000_000:.2f} km²."
     )
 
-    # Add styles for different size classes (gradient: red for small → green for large)
+    # Add styles for different size classes (gradient: orange → yellow → green)
+    # Aligned with fireworks safety standards (EU F3, NFPA 1123)
     styles = {
-        'Very Small': '#FF6B6B', # Red (smallest, less desirable)
-        'Small': '#FFB84D',      # Orange
-        'Medium': '#FFE66D',     # Yellow (neutral)
-        'Large': '#A0E87C',      # Light green
-        'Very Large': '#4CAF50'  # Green (largest, most desirable)
+        'Small': '#FFB84D',      # Orange (2-5k m², EU F3 minimum)
+        'Medium': '#FFE66D',     # Yellow (5-12.5k m², NFPA 1-2 inch)
+        'Large': '#A0E87C',      # Light green (12.5-50k m², NFPA 2-3 inch)
+        'Very Large': '#4CAF50'  # Green (50k+ m², large professional)
     }
 
     for size_class, color in styles.items():

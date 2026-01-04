@@ -7,7 +7,6 @@ from typing import Optional
 import geopandas as gpd
 import osmnx as ox
 import pandas as pd
-from shapely.geometry import Polygon, MultiPolygon
 from tqdm import tqdm
 
 from .config import (
@@ -15,7 +14,6 @@ from .config import (
     get_all_osm_tags,
     OSM_MAX_RETRIES,
     OSM_RETRY_DELAY_S,
-    WGS84_EPSG,
 )
 
 logger = logging.getLogger(__name__)
