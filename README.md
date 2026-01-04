@@ -6,7 +6,7 @@ Geospatial analysis tool identifying safe zones for consumer fireworks using Ope
 
 ## Summary (Yerevan, Armenia - Example Results)
 
-**461 safe zones** covering **53.19 km²** (23.9% of Yerevan) identified through processing **85,195 obstacles** across **40 categories** with differentiated safety buffers (50-1500m).
+**461 safe zones** covering **53.19 km²** (23.6% of Yerevan) identified through processing **85,201 obstacles** across **38 categories** with differentiated safety buffers (20-1500m).
 
 ---
 
@@ -16,19 +16,19 @@ Geospatial analysis tool identifying safe zones for consumer fireworks using Ope
 | ------------------- | ------------------ |
 | Safe zones          | 461 polygons       |
 | Total safe area     | 53.19 km²          |
-| Coverage            | 23.9% of Yerevan   |
-| Excluded area       | 169.81 km² (76.1%) |
-| Obstacles processed | 85,195 features    |
-| Categories          | 40 distinct types  |
-| Buffer range        | 50-1500 meters     |
+| Coverage            | 23.6% of Yerevan   |
+| Excluded area       | 172.60 km² (76.4%) |
+| Obstacles processed | 85,201 features    |
+| Categories          | 38 active types    |
+| Buffer range        | 20-1500 meters     |
 
 ### Zone Distribution
 
 | Size Class | Count | %     | Area Range       |
 | ---------- | ----- | ----- | ---------------- |
 | Small      | 137   | 29.7% | 2,000-5,000 m²   |
-| Medium     | 91    | 19.7% | 5,000-10,000 m²  |
-| Large      | 122   | 26.5% | 10,000-50,000 m² |
+| Medium     | 116   | 25.2% | 5,000-12,500 m²  |
+| Large      | 97    | 21.0% | 12,500-50,000 m² |
 | Very Large | 111   | 24.1% | >50,000 m²       |
 
 ---
