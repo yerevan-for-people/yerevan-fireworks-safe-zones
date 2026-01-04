@@ -94,7 +94,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         '--min-zone-area',
         type=float,
-        default=500.0,
+        default=2000.0,
         help='Minimum zone area in m² to keep (only with --generate-zones)'
     )
 

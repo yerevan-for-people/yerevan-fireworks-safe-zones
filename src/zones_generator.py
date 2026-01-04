@@ -166,7 +166,7 @@ def add_zone_metadata(
 def generate_safe_zones(
     safe_points_gdf: gpd.GeoDataFrame,
     zone_radius_m: float = 15.0,
-    min_zone_area_m2: Optional[float] = 500.0,
+    min_zone_area_m2: Optional[float] = 2000.0,
     dissolve: bool = True,
     add_metadata: bool = True,
     classify_size: bool = True,
@@ -219,7 +219,7 @@ def create_zones_from_free_space(
     boundary_gdf: gpd.GeoDataFrame,
     forbidden_zone: MultiPolygon,
     target_crs: str,
-    min_zone_area_m2: Optional[float] = 1000.0,
+    min_zone_area_m2: Optional[float] = 2000.0,
     add_metadata: bool = True,
     classify_size: bool = True
 ) -> gpd.GeoDataFrame:
